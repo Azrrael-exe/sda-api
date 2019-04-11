@@ -1,0 +1,24 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const resHandler = require('./utils/ResHandler');
+const { Logger } = require('./utils/Logger');
+const settings = require('./config/Settings');
+
+const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+const api = require('./routes/Api');
+
+app.use(settings.BASE_PATH, api);
+app.use(resHandler.susscess);
+app.use(resHandler.error);
+
+const port = settings.PORT || 3000;
+
+app.listen(port, () => {
+  Logger.info(`Server running on port: ${settings.PORT}`);
+});
+
+module.exports = app;
