@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const resHandler = require('./utils/ResHandler');
 const { Logger } = require('./utils/Logger');
@@ -13,9 +14,9 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
-
 const api = require('./routes/Api');
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(settings.BASE_PATH, api);
 app.use(resHandler.susscess);
